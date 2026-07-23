@@ -1,0 +1,8 @@
+<div class="market">
+  @for (group of groups; track group.title) {
+    <section class="group">
+      <h2>{{ group.title }}</h2>
+      <app-ticker-multi [tickers]="group.tickers" />
+    </section>
+  }
+</div>
