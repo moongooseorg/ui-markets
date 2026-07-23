@@ -2,7 +2,9 @@
   @for (group of groups; track group.title) {
     <section class="group">
       <h2>{{ group.title }}</h2>
-      <app-ticker-multi [tickers]="group.tickers" />
+      @for (row of group.rows; track $index) {
+        <app-ticker-multi [tickers]="row" />
+      }
     </section>
   }
 </div>

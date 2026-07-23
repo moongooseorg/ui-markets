@@ -1,34 +1,23 @@
-import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 export type Theme = 'light-theme' | 'dark-theme';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  readonly currentTheme$ = new BehaviorSubject<Theme>(
-    (localStorage.getItem('theme') as Theme) || 'dark-theme',
-  );
+  private theme: Theme = (localStorage.getItem('theme') as Theme) || 'dark-theme';
 
-  constructor(private zone: NgZone) {
-    this.apply(this.currentTheme$.value);
+  constructor() {
+    this.apply(this.theme);
 
     window.addEventListener('storage', (event) => {
-      if (event.key !== 'theme' || !event.newValue) {
-        return;
+      if (event.key === 'theme' && event.newValue && event.newValue !== this.theme) {
+        location.reload();
       }
-      const theme = event.newValue as Theme;
-      if (theme === this.currentTheme$.value) {
-        return;
-      }
-      this.zone.run(() => {
-        this.apply(theme);
-        this.currentTheme$.next(theme);
-      });
     });
   }
 
   get colorTheme(): 'light' | 'dark' {
-    return this.currentTheme$.value === 'light-theme' ? 'light' : 'dark';
+    return this.theme === 'light-theme' ? 'light' : 'dark';
   }
 
   private apply(theme: Theme): void {

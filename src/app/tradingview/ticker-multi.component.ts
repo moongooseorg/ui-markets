@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { AfterViewInit, Component, ElementRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ThemeService } from '../theme.service';
 import { Ticker } from '../tickers.config';
 
@@ -11,27 +10,15 @@ import { Ticker } from '../tickers.config';
   templateUrl: './ticker-multi.component.html',
   styleUrl: './ticker-multi.component.scss',
 })
-export class TickerMultiComponent implements AfterViewInit, OnDestroy {
+export class TickerMultiComponent implements AfterViewInit {
   @Input() tickers!: Ticker[];
   @ViewChild('container', { static: true }) container!: ElementRef;
 
   private scriptUrl = 'https://s3.tradingview.com/external-embedding/embed-widget-tickers.js';
-  private themeSub?: Subscription;
 
   constructor(private renderer: Renderer2, private themeService: ThemeService) {}
 
   ngAfterViewInit(): void {
-    this.themeSub = this.themeService.currentTheme$.subscribe(() => this.render());
-  }
-
-  ngOnDestroy(): void {
-    this.themeSub?.unsubscribe();
-  }
-
-  private render(): void {
-    const host = this.container.nativeElement as HTMLElement;
-    host.innerHTML = '';
-
     const script = this.renderer.createElement('script');
     const config = JSON.stringify({
       symbols: this.tickers.map((t) => ({ proName: t.proName, title: t.title })),
@@ -45,6 +32,6 @@ export class TickerMultiComponent implements AfterViewInit, OnDestroy {
     this.renderer.setProperty(script, 'src', this.scriptUrl);
     this.renderer.setProperty(script, 'async', true);
     this.renderer.setProperty(script, 'innerHTML', config);
-    this.renderer.appendChild(host, script);
+    this.renderer.appendChild(this.container.nativeElement, script);
   }
 }
