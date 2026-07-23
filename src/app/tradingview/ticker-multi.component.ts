@@ -22,7 +22,7 @@ export class TickerMultiComponent implements AfterViewInit {
     const script = this.renderer.createElement('script');
     const config = JSON.stringify({
       symbols: this.tickers.map((t) => ({ proName: t.proName, title: t.title })),
-      isTransparent: true,
+      isTransparent: false,
       showSymbolLogo: true,
       colorTheme: this.themeService.colorTheme,
       locale: 'en',
