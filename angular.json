@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ticker-tracker": {
+    "markets": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/ticker-tracker",
+            "outputPath": "dist/markets",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -60,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ticker-tracker:build:production"
+              "buildTarget": "markets:build:production"
             },
             "development": {
-              "buildTarget": "ticker-tracker:build:development"
+              "buildTarget": "markets:build:development"
             }
           },
           "defaultConfiguration": "development"

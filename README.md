@@ -1,8 +1,8 @@
-# ticker-tracker
+# markets
 
 An Angular v20 standalone app that displays grouped market ticker data (TradingView widgets) on a
 single responsive page. Designed to be embedded, chromeless, inside the `ui-shell` via an
-`<iframe>` at the `/ticker-tracker` path prefix. It carries no header or navigation of its own; the
+`<iframe>` at the `/markets` path prefix. It carries no header or navigation of its own; the
 shell provides all chrome.
 
 ## Development
@@ -12,7 +12,7 @@ Requires Node 20.19+ or 22.12+.
 ```bash
 npm install
 npm start        # ng serve -> http://localhost:4200
-npm run build    # production build -> dist/ticker-tracker/browser
+npm run build    # production build -> dist/markets/browser
 ```
 
 ## Structure
@@ -30,16 +30,16 @@ value from `localStorage` on load and themes the widgets accordingly.
 ## Docker
 
 Multi-stage build (Node → nginx), served on port **8080** internally. The image is built with
-`--base-href=/ticker-tracker/` so assets resolve behind the proxy's path prefix.
+`--base-href=/markets/` so assets resolve behind the proxy's path prefix.
 
 ```bash
-docker build -t ticker-tracker .
-docker run -p 8083:8080 ticker-tracker
+docker build -t markets .
+docker run -p 8083:8080 markets
 ```
 
 ## Deployment
 
 `.github/workflows/build-deploy.yml` builds a `linux/arm64` image, pushes it to GHCR, and deploys
 via `docker-compose.yml` (contract: `APP_NAME`, `IMAGE`, `HOST_PORT` → `8080`). Host port **8083**.
-The reverse proxy routes `PathPrefix(/ticker-tracker)` to this host port (see
-`docker-reverse-proxy/dynamic/ticker-tracker.yml`).
+The reverse proxy routes `PathPrefix(/markets)` to this host port (see
+`docker-reverse-proxy/dynamic/markets.yml`).

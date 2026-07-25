@@ -3,10 +3,10 @@ WORKDIR /src
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build -- --base-href=/ticker-tracker/
+RUN npm run build -- --base-href=/markets/
 
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /src/dist/ticker-tracker/browser /usr/share/nginx/html
+COPY --from=build /src/dist/markets/browser /usr/share/nginx/html
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

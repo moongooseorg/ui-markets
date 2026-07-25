@@ -1,5 +1,5 @@
 {
-  "name": "ticker-tracker",
+  "name": "markets",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
